@@ -1,15 +1,14 @@
 //
-// keyer.ino -- use an Arduino as a fixed speed two-paddle iambic keyer.
+// keyer.ino -- use an Arduino as an adjustable speed two-paddle iambic keyer.
 //
 
-// Wikipedia says that the length of a dot in milliseconds is 1200 over
-// the words per minute rate when using "PARIS" as the standard word.
-const int wpm = 10;
-const int ditTime = 1200 / wpm;
+const int wpmMin = 3;
+const int wpmMax = 30;  // these values determine the range of speeds available
 
-const int ditPin  = 7;
-const int dahPin  = 8;
-const int tonePin = 12;
+const int ditPin   = 7; // traditionally, the left hand keyer paddle
+const int dahPin   = 8; // traditionally, the right hand keyer paddle
+const int tonePin  = 12;
+const int speedPot = A0;
 
 enum states {
   IDLE, NEED_DIT, NEED_DIT_PAUSE, NEED_DAH, NEED_DAH_PAUSE
@@ -17,10 +16,19 @@ enum states {
 enum states state = IDLE;
 
 void setup() {
-  pinMode(tonePin, OUTPUT);
+  Serial.begin(9600);
+  pinMode(tonePin,OUTPUT);
   pinMode(ditPin, INPUT_PULLUP);
   pinMode(dahPin, INPUT_PULLUP);
-  Serial.begin(9600);
+}
+
+// getWpm -- gets the appropriate words per minute value based on a
+// setting of the speed potentiometer.  If you'd rather not bother
+// with this, just "return 10.0", or whatever, and be happy.
+float getWpm() {
+  int potValue = analogRead(speedPot); // returns 0..1023
+  float wpm = wpmMin + (potValue * (wpmMax - wpmMin)) / 1024.;
+  return wpm;
 }
 
 void loop() {
@@ -35,6 +43,10 @@ void loop() {
 
     timeNow = millis();
     if (timeNow >= timeNext) {
+      // The length of a dot in milliseconds is the words per minute
+      // rate over 1200, when using "PARIS" as the standard word.
+      float wpm = getWpm();
+      int ditTime = wpm / 1200;
       switch (state) {
       case IDLE:
         if (ditRequested) {
