@@ -7,18 +7,16 @@ as a way for me to play around with and learn about an Arduino.
 
 Here are a few notes...
 
-The various versions aren't so much steady improvements as they are
-different ways to control the speed of the keyer.  Version used a
-fixed speed; Version 2 uses a potentiometer to control the speed; and
-Version 3 will likely use a combination of a button used in
-conjunction with the keyer paddles to control the speed.  Because of
-this, the hardware requirements and the pin assignments will vary
-somewhat between versions.  You have been warned.
+Version 1 used a fixed speed; Version 2 can also use a potentiometer
+to control the speed.  The hardware requirements and the pin
+assignments will vary somewhat between versions.
 
-There are active buzzers, which buzz when a voltage is applied.  This
-is the kind I've used here.  They are polarized, and won't work if the
-polarity is incorrect.  There are also passive buzzer, which require
-an AC signal.  These won't work with this circut.
+There are two kinds of buzzers which look nearly identical.  There are
+active buzzers, which buzz when a voltage is applied, and is the kind
+I've used here.  They are polarized, and won't work if the polarity is
+incorrect.  There are also passive buzzers, which require an AC
+signal, like a little poor fidelity speaker.  These won't work with
+this circut.
 
 ** Version 2.0 -- the potentiometer speed controlled version
 
@@ -31,7 +29,11 @@ constants that can be changed if you so desire.  You'll also have to
 connect a potentiometer for speed control.  This is easy -- the two
 outer legs go to Vcc (+5V or +3.3V, depending on the board you're
 using) while the "slider" or "wiper" contact has to go on one of the
-analog input pins, by default, A0.
+analog input pins, by default, A0.  Most any value potentiometer
+should work, although I used a 10k potentiometer.
+
+If you'd rather not use a potentiometer, just set the wpmFixed to
+the fixed value that you'd like to use.
 
 ** Version 1.0 -- the fixed speed version
 

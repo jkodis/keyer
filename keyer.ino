@@ -3,8 +3,8 @@
 //
 
 const int wpmMin     = 3;
-const int wpmMax     = 30; // these values determine the range of speeds available
-const int wpmDefault = 0;  // zero to use a potentiometer, higher for a fixed speed
+const int wpmMax     = 30; // these values set the range of speeds available
+const int wpmFixed   = 0;    // zero to use a pot, higher for a fixed speed
 
 const int ditPin     = 7;  // traditionally, the left hand keyer paddle
 const int dahPin     = 8;  // traditionally, the right hand keyer paddle
@@ -27,8 +27,8 @@ void setup() {
 // setting of the speed potentiometer.  If you'd rather not bother
 // with this, just set wpmDefault to your preferred fixed speed.
 float getWpm() {
-  if (wpmDefault > 0)
-    return wpmDefault;
+  if (wpmFixed > 0)
+    return wpmFixed;
   int potValue = analogRead(speedPot); // returns 0..1023
   float wpm = wpmMin + (potValue * (wpmMax - wpmMin)) / 1024.;
   return wpm;
